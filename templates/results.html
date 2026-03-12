@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-8">
+
+        <div class="card shadow p-4">
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <a href="/" class="btn btn-outline-secondary btn-sm">&#8592; Back</a>
+                <h2 class="text-center flex-grow-1">{{ info.properties.name }}</h2>
+
+                <form action="/save" method="post">
+                    <input type="hidden" name="drug_name" value="{{ drug_name }}">
+                    <input type="hidden" name="rxcui" value="{{ info.rxcui }}">
+                    <input type="hidden" name="name" value="{{ info.properties.name }}">
+                    <input type="hidden" name="synonym" value="{{ info.properties.synonym }}">
+                    <input type="hidden" name="drug_class" value="{{ info.drug_class[0].className if info.drug_class|length > 0 else 'Unknown' }}">
+                    <input type="hidden" name="related" value="{{ info.related_concepts[0].name if info.related_concepts|length > 0 else 'None' }}">
+                    <button type="submit" class="btn btn-outline-dark btn-sm">&#9733; Save</button>
+                </form>
+            </div>
+
+            <hr>
+
+            <h5>Drug Classification</h5>
+            {% if info.drug_class|length == 0 %}
+                <p>No classification found.</p>
+            {% else %}
+                <ul class="list-group mb-3">
+                    {% for c in info.drug_class %}
+                    <li class="list-group-item">{{ c.className }} <span class="text-muted">({{ c.classType }})</span></li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+            <h5>Drug Properties</h5>
+            <ul class="list-group mb-3">
+                <li class="list-group-item"><strong>Name:</strong> {{ info.properties.name }}</li>
+                <li class="list-group-item"><strong>Synonym:</strong> {{ info.properties.synonym if info.properties.synonym else "None" }}</li>
+                <li class="list-group-item"><strong>Term Type:</strong> {{ info.properties.tty }}</li>
+                <li class="list-group-item"><strong>RxCUI:</strong> {{ info.rxcui }}</li>
+            </ul>
+
+            <h5>Related Concepts</h5>
+            {% if info.related_concepts|length == 0 %}
+                <p>No related concepts found.</p>
+            {% else %}
+                <ul class="list-group">
+                    {% for r in info.related_concepts %}
+                    <li class="list-group-item">{{ r.name }} <span class="text-muted">({{ r.tty }})</span></li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
