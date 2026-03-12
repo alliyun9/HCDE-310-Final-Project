@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 class="mb-4">Your Saved Flashcards</h2>
+
+{% if saved_cards|length == 0 %}
+    <div class="alert alert-warning">
+        No saved cards yet. Search for a drug and save its information!
+    </div>
+{% else %}
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for card in saved_cards %}
+        <div class="col">
+            <div class="card h-100 shadow-sm p-3">
+
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="card-title">{{ card.name }}</h5>
+
+                    <form action="/delete" method="post">
+                        <input type="hidden" name="drug_name" value="{{ card.drug_name }}">
+                        <button type="submit" class="btn btn-outline-danger btn-sm">&#10005;</button>
+                    </form>
+                </div>
+
+                <hr>
+
+                <p><strong>Drug Classification</strong></p>
+                <p>{{ card.drug_class }}</p>
+
+                <p><strong>Drug Properties</strong></p>
+                <p>Synonym: {{ card.synonym if card.synonym else "None" }}</p>
+                <p>RxCUI: {{ card.rxcui }}</p>
+
+                <p><strong>Related Concepts</strong></p>
+                <p>{{ card.related }}</p>
+
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+{% endblock %}
