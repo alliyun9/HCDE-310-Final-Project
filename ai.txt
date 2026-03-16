@@ -1,0 +1,5 @@
+I used AI to help me navigate the format calls of bootstrap for the base.html template footer
+as well as the try/except functions while running into errors creating functions.py. I learned that
+unlike our homeworks, the RxNorm API had three situational errors that could crash my application.
+There was the possibility of my API returning empty data, None, or the drug not existing due to 
+mispelling or inaccurate input. Therefore, I needed to create these calls to handle all the edge cases.
